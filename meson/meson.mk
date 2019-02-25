@@ -9,11 +9,12 @@ define Meson/Configure
 	echo $(PKG_CONFIG_PATH)
 	cd $(PKG_BUILD_DIR) && mkdir $(MESON_BUILD_DIR)
 	cd $(PKG_BUILD_DIR) && PKG_CONFIG_PATH=$(PKG_CONFIG_PATH) $(PYTHON3_BIN) $(MESON_BIN) builddir --cross-file $(CROSS_CONF)
+	rm $(PKG_BUILD_DIR)/Makefile
 endef
 
 define Meson/Compile
 	echo Compile
-	cd $(MESON_BUILD_DIR) && $(NINJA_BIN)
+	(cd $(MESON_BUILD_DIR) && $(NINJA_BIN))
 endef
 
 define Meson/Install
