@@ -65,6 +65,10 @@ define Build/Compile
 	#$(call Build/Compile/Default)
 endef
 
+define Build/Install
+	echo install
+endef
+
 define Package/knot-resolver/install
 
 	$(INSTALL_DIR) $(1)/usr/bin
