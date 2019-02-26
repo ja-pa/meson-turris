@@ -54,13 +54,16 @@ define Build/Patch
 	       -e 's/\(.*find_lib,libmemcached.*\)/HAS_libmemcached := no/' Makefile
 endef
 
+define Build/Prepare
+	$(call Build/Prepare/Default)
+endef
+
 define Build/Configure
 	$(call Meson/Configure)
 	$(call Build/Configure/Default)
 endef
 
 define Build/Compile
-	echo aaaaaaaaaaaaaaa
 	$(call Meson/Compile)
 	#$(call Build/Compile/Default)
 endef
@@ -70,24 +73,20 @@ define Build/Install
 endef
 
 define Package/knot-resolver/install
-
 	$(INSTALL_DIR) $(1)/usr/bin
-	#$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/*bin/kresd $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_BUILD_DIR)/builddir/daemon/kresd $(1)/usr/bin/
 
 	$(INSTALL_DIR) $(1)/usr/lib
-	#$(CP) $(PKG_INSTALL_DIR)/usr/lib/libkres.so* $(1)/usr/lib
-	#$(CP) $(PKG_INSTALL_DIR)/usr/lib/kdns_modules $(1)/usr/lib
+	$(CP) $(PKG_BUILD_DIR)/builddir/lib/libkres.so* $(1)/usr/lib
 
 	$(INSTALL_DIR) $(1)/etc/init.d
-	#$(INSTALL_BIN) ./files/kresd.init $(1)/etc/init.d/kresd
+	$(INSTALL_BIN) ./files/kresd.init $(1)/etc/init.d/kresd
 
 	$(INSTALL_DIR) $(1)/etc/kresd
-	#$(CP) $(PKG_BUILD_DIR)/etc/icann-ca.pem $(1)/etc/kresd
-	#$(CP) $(PKG_BUILD_DIR)/etc/root.hints $(1)/etc/kresd
-	#$(INSTALL_BIN) ./files/kresd.postinst $(1)/etc/kresd/kresd.postinst.sh
-	#$(INSTALL_BIN) ./files/convert_config.sh $(1)/etc/kresd/convert_config.sh
+	$(CP) $(PKG_BUILD_DIR)/etc/root.hints $(1)/etc/kresd
+	$(INSTALL_BIN) ./files/kresd.postinst $(1)/etc/kresd/kresd.postinst.sh
+	$(INSTALL_BIN) ./files/convert_config.sh $(1)/etc/kresd/convert_config.sh
 endef
-
 
 
 $(eval $(call BuildPackage,knot-resolver))
