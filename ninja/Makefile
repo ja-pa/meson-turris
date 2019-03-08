@@ -69,4 +69,4 @@ define Host/Clean
 endef
 
 $(eval $(call HostBuild,ninja))
-#$(eval $(call BuildPackage,ninja))
+$(eval $(call BuildPackage,ninja))
