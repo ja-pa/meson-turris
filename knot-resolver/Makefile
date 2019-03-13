@@ -12,7 +12,8 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=knot-resolver
 PKG_RELEASE:=1
 
-PKG_VERSION:=783a2e902e5a19c6d6e644fcf2bfe1df13dc139e
+PKG_VERSION:=0b9524b7d6680f892671fc4e7a2e5c603848cf60
+
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://gitlab.labs.nic.cz/knot/knot-resolver.git
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
@@ -47,30 +48,17 @@ MAKE_FLAGS += \
 	PREFIX=/usr \
 	ETCDIR=/etc/kresd
 
-#define Build/Patch
-#	$(Build/Patch/Default)
-#	cd $(PKG_BUILD_DIR) && \
-#	sed -i -e 's/\(.*find_lib,hiredis.*\)/HAS_hiredis := no/' \
-#	       -e 's/\(.*find_lib,libmemcached.*\)/HAS_libmemcached := no/' Makefile
-#endef
-
-define Build/Prepare
-	$(call Build/Prepare/Default)
-endef
-
 define Build/Configure
 	$(call Build/Meson/Configure)
-	#$(call Build/Configure/Default)
 endef
 
 define Build/Compile
 	$(call Build/Meson/Compile)
-	#$(call Build/Compile/Default)
 endef
 
-#define Build/Install
-#	echo install
-#endef
+define Build/Install
+	$(call Build/Meson/Install)
+endef
 
 define Package/knot-resolver/install
 	$(INSTALL_DIR) $(1)/usr/bin
