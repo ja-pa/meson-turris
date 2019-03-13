@@ -10,25 +10,12 @@ CMAKE_GENERATOR="Ninja"
 # add ninja to host dependecies for package
 PKG_BUILD_DEPENDS += ninja/host #ninja/host/install
 
-define Build/Compile/Ninja
-	cd $(PKG_BUILD_DIR) && $(HOST_NINJA_BIN)
+define Build/Ninja/Compile
+	cd $(PKG_BUILD_DIR)/$(1) && $(HOST_NINJA_BIN)
 endef
 
-define Build/Install/Ninja
-ifndef DESTDIR
-	cd $(PKG_BUILD_DIR) && $(HOST_NINJA_BIN) install
-else
-
-	cd $(PKG_BUILD_DIR) && DESTDIR=$(DESTDIR) $(HOST_NINJA_BIN) install
-endif
-endef
-
-define Build/Compile
-	$(call Build/Compile/Ninja)
-endef
-
-define Build/Install
-	$(call Build/Install/Ninja)
+define Build/Ninja/Install
+	DESTDIR=$(PKG_BUILD_DIR)/ipkg-install  $(HOST_NINJA_BIN) install -C $(PKG_BUILD_DIR)/$(strip $(1))
 endef
 
 endif
