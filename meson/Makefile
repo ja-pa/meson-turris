@@ -54,8 +54,8 @@ CROSS_CONF=$(STAGING_DIR)/cross_conf.txt
 
 define Host/Compile
 	echo [binaries] >$(CROSS_CONF)
-	echo c = \'$(TARGET_CC)\' >>$(CROSS_CONF)
-	echo cpp = \'$(TARGET_CXX)\'>>$(CROSS_CONF)
+	echo c = \'$(TARGET_CC_NOCACHE)\' >>$(CROSS_CONF)
+	echo cpp = \'$(TARGET_CXX_NOCACHE)\'>>$(CROSS_CONF)
 	echo ar = \'$(TARGET_AR)\'>>$(CROSS_CONF)
 	# echo strip = \'$(TOOLCHAIN_DIR)/bin/arm-openwrt-linux-muslgnueabi-strip\'>>$(CROSS_CONF)
 	echo strip = \'$(TOOLCHAIN_DIR)/arm-openwrt-linux-muslgnueabi/bin/strip\'>>$(CROSS_CONF)
