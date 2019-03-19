@@ -22,4 +22,16 @@ define Build/Meson/Install
 	$(call Build/Ninja/Install,$(MESON_BUILD_DIR))
 endef
 
+define Build/Configure
+	$(call Build/Meson/Configure)
+endef
+
+define Build/Compile
+	$(call Build/Meson/Compile)
+endef
+
+define Build/Install
+	$(call Build/Meson/Install)
+endef
+
 endif
