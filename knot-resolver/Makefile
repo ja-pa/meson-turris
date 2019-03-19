@@ -27,8 +27,9 @@ PKG_LICENSE:=GPL-3.0
 
 PKG_INSTALL:=1
 
-include $(TOPDIR)/package/meson/meson.mk
+
 include $(INCLUDE_DIR)/package.mk
+include $(TOPDIR)/package/meson/meson.mk
 
 define Package/knot-resolver
 	SECTION:=net
@@ -48,30 +49,31 @@ MAKE_FLAGS += \
 	PREFIX=/usr \
 	ETCDIR=/etc/kresd
 
-define Build/Configure
-	$(call Build/Meson/Configure)
-endef
 
-define Build/Compile
-	$(call Build/Meson/Compile)
-endef
+#define Build/Configure
+#	$(call Build/Meson/Configure)
+#endef
 
-define Build/Install
-	$(call Build/Meson/Install)
-endef
+#define Build/Compile
+#	$(call Build/Meson/Compile)
+#endef
+
+#define Build/Install
+#	$(call Build/Meson/Install)
+#endef
 
 define Package/knot-resolver/install
 	$(INSTALL_DIR) $(1)/usr/bin
-	$(INSTALL_BIN) $(PKG_BUILD_DIR)/builddir/daemon/kresd $(1)/usr/bin/
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/usr/local/sbin/kresd $(1)/usr/bin/
 
 	$(INSTALL_DIR) $(1)/usr/lib
-	$(CP) $(PKG_BUILD_DIR)/builddir/lib/libkres.so* $(1)/usr/lib
+	$(CP) $(PKG_INSTALL_DIR)/usr/local/lib/x86_64-linux-gnu/libkres.so* $(1)/usr/lib
 
 	$(INSTALL_DIR) $(1)/etc/init.d
 	$(INSTALL_BIN) ./files/kresd.init $(1)/etc/init.d/kresd
 
 	$(INSTALL_DIR) $(1)/etc/kresd
-	$(CP) $(PKG_BUILD_DIR)/etc/root.hints $(1)/etc/kresd
+	$(CP) $(PKG_INSTALL_DIR)/usr/local/etc/knot-resolver/root.hints $(1)/etc/kresd
 	$(INSTALL_BIN) ./files/kresd.postinst $(1)/etc/kresd/kresd.postinst.sh
 	$(INSTALL_BIN) ./files/convert_config.sh $(1)/etc/kresd/convert_config.sh
 endef
