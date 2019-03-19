@@ -18,4 +18,14 @@ define Build/Ninja/Install
 	DESTDIR=$(PKG_BUILD_DIR)/ipkg-install  $(HOST_NINJA_BIN) install -C $(PKG_BUILD_DIR)/$(strip $(1))
 endef
 
+ifneq ($(__meson_mk_inc),1)
+
+define Build/Compile
+	$(call Build/Ninja/Compile)
+endef
+
+define Build/Install
+	$(call Build/Ninja/Install)
+endif
+
 endif
